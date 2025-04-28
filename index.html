@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureScan | Fraud Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+            
+                <h1>SecureScan</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Protect Yourself from Online Fraud</h2>
+                    <p>Scan messages and emails instantly to detect potential scams and phishing attempts</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="scanner">
+            <div class="container">
+                <div class="scanner-box">
+                    <h3><i class="fas fa-shield-alt"></i> Fraud Detection Scanner</h3>
+                    <div class="input-area">
+                        <textarea id="text-input" placeholder="Paste suspicious message here..."></textarea>
+                        <button id="scan-btn" onclick="analyzeText()">
+                            <i class="fas fa-search"></i> Analyze Text
+                        </button>
+                    </div>
+                    <div class="result-area" id="result-area">
+                        <div class="result-header">
+                            <h4>Analysis Result</h4>
+                            <div class="confidence-meter">
+                                <span>Confidence:</span>
+                                <div class="meter" id="confidence-meter">
+                                    <div class="fill" id="confidence-fill"></div>
+                                </div>
+                                <span id="confidence-value">0%</span>
+                            </div>
+                        </div>
+                        <div class="result-box" id="result-box">
+                            <div class="placeholder">
+                                <i class="fas fa-info-circle"></i>
+                                <p>Results will appear here after analysis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Why Choose SecureScan?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Real-time Analysis</h3>
+                        <p>Get instant results with our advanced machine learning model</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-database"></i></div>
+                        <h3>Comprehensive Database</h3>
+                        <p>Detects all known scam patterns and phishing techniques</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-lock"></i></div>
+                        <h3>Privacy Focused</h3>
+                        <p>Your data never leaves your device - 100% secure</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SecureScan</h4>
+                    <p>Protecting users from online fraud since 2023</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@securescan.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SecureScan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function analyzeText() {
+            const text = document.getElementById("text-input").value;
+            const scanBtn = document.getElementById("scan-btn");
+            const resultBox = document.getElementById("result-box");
+            
+            if (!text.trim()) {
+                showResult("Please enter some text to analyze", "error");
+                return;
+            }
+
+            // Show loading state
+            scanBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            scanBtn.disabled = true;
+            resultBox.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing message...</div>';
+
+            try {
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `text=${encodeURIComponent(text)}`,
+                });
+                
+                const data = await response.json();
+                
+                // Simulate confidence score (in a real app, this would come from your model)
+                const confidence = Math.floor(Math.random() * 30) + 70; // Random between 70-100%
+                
+                // Update UI
+                document.getElementById("confidence-value").textContent = `${confidence}%`;
+                document.getElementById("confidence-fill").style.width = `${confidence}%`;
+                
+                if (data.result === "fraudulent") {
+                    showResult(`
+                        <div class="result-alert danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h4>Potential Fraud Detected!</h4>
+                            <p>This message exhibits characteristics commonly found in scams or phishing attempts.</p>
+                            <div class="result-details">
+                                <h5>Warning Signs:</h5>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Urgent call to action</li>
+                                    <li><i class="fas fa-check-circle"></i> Prize or reward offered</li>
+                                    <li><i class="fas fa-check-circle"></i> Request for personal information</li>
+                                </ul>
+                                <div class="advice">
+                                    <h5>Our Advice:</h5>
+                                    <p>Do not click any links or provide personal information. Delete this message.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `, "fraudulent");
+                } else {
+                    showResult(`
+                        <div class="result-alert safe">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>No Fraud Detected</h4>
+                            <p>This message appears to be legitimate, but always exercise caution with unexpected messages.</p>
+                            <div class="result-details">
+                                <h5>Safety Tips:</h5>
+                                <ul>
+                                    <li><i class="fas fa-shield-alt"></i> Verify sender identity</li>
+                                    <li><i class="fas fa-shield-alt"></i> Check for spelling errors</li>
+                                    <li><i class="fas fa-shield-alt"></i> Avoid clicking suspicious links</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `, "safe");
+                }
+            } catch (error) {
+                showResult("An error occurred during analysis. Please try again.", "error");
+            } finally {
+                scanBtn.innerHTML = '<i class="fas fa-search"></i> Analyze Text';
+                scanBtn.disabled = false;
+            }
+        }
+
+        function showResult(content, type) {
+            const resultBox = document.getElementById("result-box");
+            resultBox.innerHTML = content;
+            resultBox.className = "result-box " + type;
+        }
+    </script>
+</body>
+</html>

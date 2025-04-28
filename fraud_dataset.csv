@@ -1,0 +1,21 @@
+text,label
+Congratulations! You've won a $1000 Walmart gift card. Click here to claim your prize.,fraudulent
+Your account has been suspended. Please update your KYC details to avoid permanent suspension.,fraudulent
+"Earn ₹50,000 per month from home. Click here to apply now!",fraudulent
+Your electricity bill is overdue. Pay now to avoid disconnection.,fraudulent
+You have received a payment of $500. Click here to claim.,fraudulent
+Your SIM card will be blocked in 24 hours. Update your details now.,fraudulent
+"Hi, I'm calling from Microsoft support. Your computer has a virus.",fraudulent
+You have been selected for an internship at Google. Click here to accept.,fraudulent
+"Claim your lottery prize of $1,000,000! Click here to proceed.",fraudulent
+Your bank account has been compromised. Click here to secure it.,fraudulent
+"Hi, can you send me the report by EOD?",non-fraudulent
+Your package has been delivered. Track your order here.,non-fraudulent
+Reminder: Your meeting is scheduled for 3 PM today.,non-fraudulent
+Thanks for your payment. Your transaction ID is 123456.,non-fraudulent
+Your order #12345 has been shipped. Track it here.,non-fraudulent
+"Hi, let's catch up for coffee this weekend.",non-fraudulent
+Your monthly statement is ready. Download it here.,non-fraudulent
+Your subscription is about to expire. Renew now to continue.,non-fraudulent
+Your appointment is confirmed for tomorrow at 10 AM.,non-fraudulent
+Your feedback is important to us. Please fill out this survey.,non-fraudulent
